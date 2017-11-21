@@ -3,24 +3,25 @@ const db = require('./db')
 
 const router = express.Router()
 
+// Renders public/home
+// Page should have a way to send custom get to 'choose' page
 router.get('/', function (req, res) {
-  res.render('index')
+  res.render('home')
 })
 
-// router.get('/:id', function (req, res) {
-//   // const subjects = db.getSubjects()
-//   const choices = db.getChoices(req.params.id)
-//   res.render('index', { choices })
-// })
+// Returns all subjects and the current choices for student with id :id
+// Renders public/choose.hbs
+router.get('/:id', async (req, res) => {
+  let subjects = await db.getSubjects()
+  let choices = await db.getChoices(req.params.id)
+  res.render('choose', { subjects, choices })
+})
 
-// router.post('/:id', function (req, res) {
-//   // db.setChoices(req.params.id, req.params.choices)
-// })
-
-router.get('/test', function (req, res) {
-  const choices = db.getChoices(11510005)
-  const subjects = db.getSubjects()
-  res.render('test', { choices, subjects })
+// Saves array of choices send via post for student with id :id
+// Renders public/thanks.hbs
+router.post('/:id', (req, res) => {
+  db.updateChoices(req.params.id, req.body.choices)
+  res.render('thanks')
 })
 
 module.exports = router

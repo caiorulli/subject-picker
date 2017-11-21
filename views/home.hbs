@@ -1,0 +1,9 @@
+<input type="number" id="ra"/>
+<button type="button" id="ra_button">Enter</button>
+
+<script>
+  document.getElementById('ra_button').addEventListener('click', function() {
+    console.log('clicked')
+    window.location.replace('/' + document.getElementById('ra').value)
+  })
+</script>
