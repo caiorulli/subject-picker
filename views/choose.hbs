@@ -42,6 +42,7 @@
                         <th scope="col">Nome</th>
                         <th scope="col">Dia da Semana</th>
                         <th scope="col">Carga Horária</th>
+                        <th scope="col">Sua Escolha?</th>
                     </tr>
                     </thead>
                     {{#each subjects}}
@@ -50,9 +51,9 @@
                             <th scope="col">{{ TIPO_ELETIVA }}</th>
                             <th scope="col">{{ COD_ELETIVA }}</th>
                             <th scope="col">{{ NOME_ELETIVA }}</th>
-                            <th scope="col">{{ DIA_SEMANA }}</th>
+                            <th scope="col">{{ weekDay }}</th>
                             <th scope="col">{{ CH }}</th>
-                            <th scope="col">{{ buildChoiceTable }}</th>
+                            <th scope="col">{{ hasChosen }}</th>
                         </tr>
                     {{/each }}
                 </table>
