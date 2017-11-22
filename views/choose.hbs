@@ -2,7 +2,11 @@
     <div class="row">
         <div class="col"></div>
         <div class="col-6 text-center" style="padding: 50px;">
+<<<<<<< HEAD
             <h2>Bem Vindo!</h2>
+=======
+            <h1>Escolha de Matérias</h1>
+>>>>>>> front
             <table class="table text-center"
                    style="margin-top: 50px;background-color: aliceblue; color: darkslategrey; border-radius: 50px;">
                 <thead class="thead-dark">
@@ -42,6 +46,7 @@
                         <th scope="col">Nome</th>
                         <th scope="col">Dia da Semana</th>
                         <th scope="col">Carga Horária</th>
+                        <th scope="col">Sua Escolha?</th>
                     </tr>
                     </thead>
                     {{#each subjects}}
@@ -50,8 +55,9 @@
                             <th scope="col">{{ TIPO_ELETIVA }}</th>
                             <th scope="col">{{ COD_ELETIVA }}</th>
                             <th scope="col">{{ NOME_ELETIVA }}</th>
-                            <th scope="col">{{ DIA_SEMANA }}</th>
+                            <th scope="col">{{ weekDay }}</th>
                             <th scope="col">{{ CH }}</th>
+                            <th scope="col">{{ hasChosen }}</th>
                         </tr>
                     {{/each }}
                 </table>
