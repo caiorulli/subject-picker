@@ -12,9 +12,8 @@ router.get('/', function (req, res) {
 // Returns all subjects and the current choices for student with id :id
 // Renders public/choose.hbs
 router.get('/:id', async (req, res) => {
-  let subjects = await db.getSubjects()
-  let choices = await db.getChoices(req.params.id)
-  res.render('choose', { subjects, choices })
+  let choiceTable = await db.buildChoiceTable(req.params.id)
+  res.render('choose', { choiceTable })
 })
 
 // Saves array of choices send via post for student with id :id
