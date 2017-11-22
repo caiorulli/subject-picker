@@ -1,20 +1,62 @@
-<h2>Escolhas</h2>
-<p>
-  {{#each choices }}
-    {{ ID }}
-    {{ RA }}
-    {{ ID_ELETIVA }}
-  {{/each }}
-</p>
-
-<h2>Eletivas</h2>
-<p>
-  {{#each subjects}}
-    {{ id }}
-    {{ TIPO_ELETIVA }}
-    {{ COD_ELETIVA }}
-    {{ NOME_ELETIVA }}
-    {{ DIA_SEMANA }}
-    {{ CH }}
-  {{/each }}
-</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-6 text-center" style="padding: 50px;">
+            <h2>Bem Vindo!</h2>
+            <table class="table text-center"
+                   style="margin-top: 50px;background-color: aliceblue; color: darkslategrey; border-radius: 50px;">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col"><h4>RA</h4></th>
+                    <th scope="col"><h4>ID da Eletiva</h4></th>
+                </tr>
+                </thead>
+                <tr>
+                    {{#each choices }}
+                        <th>
+                            {{ RA }}
+                        </th>
+                        <th>
+                            {{ ID_ELETIVA }}
+                        </th>
+                    {{/each}}
+                </tr>
+            </table>
+        </div>
+        <div class="col"></div>
+    </div>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-10 text-center">
+            <div class="text-center" style="padding:30px;">
+                <h2>Eletivas</h2>
+            </div>
+            <div>
+                <table class="table table-bordered table-hover"
+                       style="background-color: aliceblue; color: darkslategrey; border-radius: 5px;">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tipo de Eletiva</th>
+                        <th scope="col">Código</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Dia da Semana</th>
+                        <th scope="col">Carga Horária</th>
+                    </tr>
+                    </thead>
+                    {{#each subjects}}
+                        <tr>
+                            <th scope="col">{{ id }}</th>
+                            <th scope="col">{{ TIPO_ELETIVA }}</th>
+                            <th scope="col">{{ COD_ELETIVA }}</th>
+                            <th scope="col">{{ NOME_ELETIVA }}</th>
+                            <th scope="col">{{ DIA_SEMANA }}</th>
+                            <th scope="col">{{ CH }}</th>
+                        </tr>
+                    {{/each }}
+                </table>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>

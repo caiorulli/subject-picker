@@ -19,7 +19,7 @@ const getChoices = async (id) =>
   select('SELECT * FROM ELETIVAS WHERE RA = ?', [id])
 
 const getSubjects = async () =>
-  select('SELECT * FROM DISCIPLINAS')
+  select('SELECT * FROM DISCIPLINAS ORDER BY COD_ELETIVA DESC')
 
 const updateChoices = (id, choices) => {
   if (choices && choices.forEach) {
