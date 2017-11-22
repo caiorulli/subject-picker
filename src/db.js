@@ -8,18 +8,32 @@ const connection = mysql.createConnection({
 })
 
 const select = async (query, params = []) =>
-  new Promise((resolve) =>
-    connection.query(query, params, function (error, results, fields) {
-      if (error) throw error
-      resolve(results)
-    })
-  )
+new Promise((resolve) =>
+connection.query(query, params, function (error, results, fields) {
+  if (error) throw error
+  resolve(results)
+})
+)
 
 const getChoices = async (id) =>
-  select('SELECT * FROM ELETIVAS WHERE RA = ?', [id])
+select('SELECT * FROM ELETIVAS WHERE RA = ?', [id])
 
 const getSubjects = async () =>
-  select('SELECT * FROM DISCIPLINAS ORDER BY DIA_SEMANA DESC')
+select('SELECT * FROM DISCIPLINAS')
+
+const buildChoiceTable = async (id) => {
+  const choices = await getChoices(id)
+  const subjects = await getSubjects()
+
+  return subjects.map((subject) => {
+    let hasChosen
+    if (choices.some((choice) => choice.ID_ELETIVA === subject.ID)) hasChosen = true
+    else hasChosen = false
+
+    const weekDay = [undefined, undefined, undefined, 'Terça', 'Quarta', undefined, 'Sexta', undefined, undefined, 'Terça e sexta']
+    return { ...subject, hasChosen, weekDay: weekDay[subject.DIA_SEMANA] }
+  })
+}
 
 const updateChoices = (id, choices) => {
   if (choices && choices.forEach) {
@@ -33,7 +47,6 @@ const updateChoices = (id, choices) => {
 }
 
 module.exports = {
-  getChoices,
-  getSubjects,
+  buildChoiceTable,
   updateChoices
 }
