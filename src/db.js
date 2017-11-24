@@ -19,7 +19,7 @@ const getChoices = async (id) =>
   select('SELECT * FROM ELETIVAS WHERE RA = ?', [id])
 
 const getSubjects = async () =>
-  select('SELECT * FROM DISCIPLINAS')
+  select('SELECT * FROM DISCIPLINAS ORDER BY CH DESC')
 
 const buildChoiceTable = async (id) => {
   const choices = await getChoices(id)
