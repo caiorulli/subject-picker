@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "test": "mocha test/**/*.test.js",
     "lint": "standard --fix"
   },
   "dependencies": {
@@ -19,5 +20,11 @@
   "devDependencies": {
     "mocha": "^4.0.1",
     "standard": "^10.0.3"
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "it"
+    ]
   }
 }
