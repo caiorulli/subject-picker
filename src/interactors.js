@@ -11,7 +11,7 @@ const makeInteractors = (db = database) => {
       else hasChosen = false
 
       const weekDay = [undefined, undefined, undefined, 'Terça', 'Quarta', undefined, 'Sexta', undefined, undefined, 'Terça e sexta']
-      return {...subject, hasChosen, weekDay: weekDay[subject.DIA_SEMANA]}
+      return Object.assign(subject, { hasChosen, weekDay: weekDay[subject.DIA_SEMANA] })
     })
   }
 
