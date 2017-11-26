@@ -17,6 +17,7 @@
     "serve-favicon": "~2.4.5"
   },
   "devDependencies": {
+    "mocha": "^4.0.1",
     "standard": "^10.0.3"
   }
 }

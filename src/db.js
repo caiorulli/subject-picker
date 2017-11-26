@@ -7,49 +7,32 @@ const connection = mysql.createConnection({
   database: 'subjectpicker'
 })
 
-const select = async (query, params = []) =>
-  new Promise((resolve) =>
+const query = async (query, params = []) =>
+  new Promise((resolve, reject) =>
     connection.query(query, params, function (error, results, fields) {
-      if (error) throw error
+      if (error) reject(error)
       resolve(results)
     })
   )
 
 const getChoices = async (id) =>
-  select('SELECT * FROM ELETIVAS WHERE RA = ?', [id])
+  query('SELECT * FROM ELETIVAS WHERE RA = ?', [id])
 
 const getSubjects = async () =>
-  select('SELECT * FROM DISCIPLINAS ORDER BY CH DESC')
+  query('SELECT * FROM DISCIPLINAS ORDER BY CH DESC')
 
-const buildChoiceTable = async (id) => {
-  const choices = await getChoices(id)
-  const subjects = await getSubjects()
+const deleteChoices = async (id) =>
+  query('DELETE FROM ELETIVAS WHERE RA = ?', [id])
 
-  return subjects.map((subject) => {
-    let hasChosen
-    if (choices.some((choice) => choice.ID_ELETIVA === subject.ID)) hasChosen = true
-    else hasChosen = false
-
-    const weekDay = [undefined, undefined, undefined, 'Terça', 'Quarta', undefined, 'Sexta', undefined, undefined, 'Terça e sexta']
-    return {...subject, hasChosen, weekDay: weekDay[subject.DIA_SEMANA]}
+const insertChoice = async ({ id, choice }) =>
+  query('INSERT INTO ELETIVAS SET ?', {
+    RA: id,
+    ID_ELETIVA: choice
   })
-}
-
-const updateChoices = (id, choices) => {
-  if (choices && choices.forEach) {
-    connection.query('DELETE FROM ELETIVAS WHERE RA = ?', [id], (error) => { if (error) throw error })
-    choices.forEach(choice => {
-      connection.query('INSERT INTO ELETIVAS SET ?', {
-        RA: id,
-        ID_ELETIVA: choice
-      }, (error) => { if (error) throw error })
-    })
-  } else {
-    throw new Error('No choice payload')
-  }
-}
 
 module.exports = {
-  buildChoiceTable,
-  updateChoices
+  getChoices,
+  getSubjects,
+  deleteChoices,
+  insertChoice
 }
