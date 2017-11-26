@@ -1,6 +1,6 @@
 const express = require('express')
 const db = require('./db')
-const actions = require('./actions')(db)
+const interactors = require('./interactors')(db)
 
 const router = express.Router()
 
@@ -9,7 +9,7 @@ router.get('/', function (req, res) {
 })
 
 router.get('/choose/:id', async (req, res) => {
-  let choiceTable = await actions.buildChoiceTable(req.params.id)
+  let choiceTable = await interactors.buildChoiceTable(req.params.id)
   res.render('choose', { choiceTable })
 })
 
