@@ -1,27 +1,15 @@
 const mysql = require('mysql')
 
-const connection = () => {
-  if (process.env.DB === 'umbler') {
-    console.log('Connecting to umbler database...')
-    return mysql.createConnection({
-      host: 'mysql762.umbler.com',
-      user: 'piroquio',
-      password: 'deliciameu',
-      database: 'subjectpicker'
-    })
-  }
-  console.log('Connecting to local database...')
-  return mysql.createConnection({
+const connection = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: 'root',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'root',
     database: 'subjectpicker'
   })
-}
 
 const query = async (query, params = []) =>
   new Promise((resolve, reject) =>
-    connection().query(query, params, function (error, results, fields) {
+    connection.query(query, params, function (error, results, fields) {
       if (error) reject(error)
       resolve(results)
     })
