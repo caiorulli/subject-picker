@@ -10,13 +10,14 @@ const connectionContract = {
 
 const query = async (query, params = []) => {
   const connection = mysql.createConnection(connectionContract)
-  new Promise((resolve, reject) =>
+  const promise = new Promise((resolve, reject) =>
     connection.query(query, params, function (error, results, fields) {
       if (error) reject(error)
       resolve(results)
     })
   )
   connection.end()
+  return promise
 }
   
 const getStudent = async (id) =>
