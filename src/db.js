@@ -1,20 +1,24 @@
 const mysql = require('mysql')
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'root',
-    database: 'subjectpicker'
-  })
+const connectionContract = {
+  host: 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || 'root',
+  database: 'subjectpicker'
+}
 
-const query = async (query, params = []) =>
-  new Promise((resolve, reject) =>
+const connection = mysql.createConnection(connectionContract)
+
+const query = async (query, params = []) => {
+  console.log(connectionContract)
+  return new Promise((resolve, reject) =>
     connection.query(query, params, function (error, results, fields) {
       if (error) reject(error)
       resolve(results)
     })
   )
-
+}
+  
 const getStudent = async (id) =>
   query('SELECT * FROM ESTUDANTES WHERE RA = ?', [id])
 
