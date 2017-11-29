@@ -1,32 +1,25 @@
 const mysql = require('mysql')
 
-const connection = () => {
-  if (process.env.DB === 'umbler') {
-    console.log('Connecting to umbler database...')
-    return mysql.createConnection({
-      host: 'mysql762.umbler.com',
-      user: 'piroquio',
-      password: 'deliciameu',
-      database: 'subjectpicker'
-    })
-  }
-  console.log('Connecting to local database...')
-  return mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'subjectpicker'
-  })
+const connectionContract = {
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || 'root',
+  database: 'subjectpicker'
 }
 
-const query = async (query, params = []) =>
-  new Promise((resolve, reject) =>
-    connection().query(query, params, function (error, results, fields) {
+
+const query = async (query, params = []) => {
+  const connection = mysql.createConnection(connectionContract)
+  const promise = new Promise((resolve, reject) =>
+    connection.query(query, params, function (error, results, fields) {
       if (error) reject(error)
       resolve(results)
     })
   )
-
+  connection.end()
+  return promise
+}
+  
 const getStudent = async (id) =>
   query('SELECT * FROM ESTUDANTES WHERE RA = ?', [id])
 
@@ -36,9 +29,8 @@ const getChoices = async (id) =>
 const getSubjects = async () =>
   query('SELECT * FROM DISCIPLINAS ORDER BY CH DESC')
 
-const getSubjectsFromChoices = async (choiceIds) => {
+const getSubjectsFromChoices = async (choiceIds) =>
   query('SELECT * FROM DISCIPLINAS WHERE ID in ?', [choiceIds])
-}
 
 const deleteChoices = async (id) =>
   query('DELETE FROM ELETIVAS WHERE RA = ?', [id])
