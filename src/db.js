@@ -7,15 +7,17 @@ const connectionContract = {
   database: 'subjectpicker'
 }
 
-const connection = mysql.createConnection(connectionContract)
 
-const query = async (query, params = []) =>
+const query = async (query, params = []) => {
+  const connection = mysql.createConnection(connectionContract)
   new Promise((resolve, reject) =>
     connection.query(query, params, function (error, results, fields) {
       if (error) reject(error)
       resolve(results)
     })
   )
+  connection.end()
+}
   
 const getStudent = async (id) =>
   query('SELECT * FROM ESTUDANTES WHERE RA = ?', [id])
