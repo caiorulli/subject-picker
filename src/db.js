@@ -26,9 +26,8 @@ const getChoices = async (id) =>
 const getSubjects = async () =>
   query('SELECT * FROM DISCIPLINAS ORDER BY CH DESC')
 
-const getSubjectsFromChoices = async (choiceIds) => {
+const getSubjectsFromChoices = async (choiceIds) =>
   query('SELECT * FROM DISCIPLINAS WHERE ID in ?', [choiceIds])
-}
 
 const deleteChoices = async (id) =>
   query('DELETE FROM ELETIVAS WHERE RA = ?', [id])
