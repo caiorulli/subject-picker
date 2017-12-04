@@ -8,12 +8,14 @@
     <h2 class="list-title">Bem-vindo {{ choiceTable.student.NOME }}!</h2>
     <p class="list-text">Selecione quais serão suas materias eletivas para o semestre {{ choiceTable.student.SEMESTRE_PREVISTO }} do curso de TECH.</p>
     {{#if choiceTable.student.SEXTA_DISPONIVEL}}
-      <p class="list-text">Você tem sexta feira disponível.</p>
+      <p class="list-text">Você tem terça, quarta e sexta feira disponível.</p>
     {{else}}
-      <p class="list-text">Você não tem sexta feira disponível.</p>
+      <p class="list-text">Você tem terça e quarta feira disponível.</p>
     {{/if}}
-    <p class="list-text">As disciplinas eletivas ESPM tem CH de 36 horas aula, ou seja, apenas meia noite cada. Então, se desejar fazer essas eletivas, deverá escolher 2 diferentes para somar 72 horas aula nesse dia e cumprir uma noite inteira.</p>
-    <p class="list-text">Acesse <a href="/eletivas.pdf">aqui</a> o descritivo das matérias eletivas ESPM.</p>
+    <p class="list-text">As disciplinas eletivas ESPM (de outros cursos) tem CH de 36 horas aula, ou seja, apenas meia noite cada. Então, se desejar fazer essas eletivas, deverá escolher 2 diferentes para somar 72 horas aula nesse dia e cumprir uma noite inteira.</p>
+    <p class="list-text">Acesse <a href="/eletivas.pdf">aqui</a> o descritivo das matérias eletivas ESPM (outros cursos).</p>
+    <p class="list-text">As escolhas são validadas ao clicar "enviar". Se escolher mais ou menos matérias que deveria, ou em desacordo com a sua disponibilidade, o envio falhará.</p>
+    <p class="list-text">Se for cursar o sétimo semestre, pode escolher os dois dias de eletivas obrigatórios somente ou três dias de eletivas, já adiantando um dia de eletiva do oitavo semestre.</p>
 
     <form method="POST" action="/validate">
       <input type="hidden" name="ra" value="{{ choiceTable.student.RA }}">
