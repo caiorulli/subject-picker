@@ -13,7 +13,7 @@ const makeInteractors = (db = database) => {
         if (choices.some((choice) => choice.ID_ELETIVA === subject.ID)) hasChosen = 'checked'
         else hasChosen = ''
 
-        const weekDay = [undefined, undefined, undefined, 'Terça', 'Quarta', undefined, 'Sexta', undefined, undefined, 'Terça e sexta']
+        const weekDay = [undefined, undefined, undefined, 'Terça', 'Quarta', undefined, 'Sexta', undefined, undefined, 'Terça e quarta']
         return Object.assign(subject, { hasChosen, weekDay: weekDay[subject.DIA_SEMANA] })
       })
     }
@@ -35,6 +35,7 @@ const makeInteractors = (db = database) => {
     const choices = await db.getSubjectsFromChoices(choiceIds).catch(error => console.log(error))
     if (!chSumMatches(choices, student)) return false
     if (!fridayAvailabilityMatches(choices, student)) return false
+    if (!daysMatch(choices)) return false
     return true
   }
 
@@ -62,6 +63,28 @@ const fridayAvailabilityMatches = (choices, student) => {
     else return false
   }
   return true
+}
+
+const daysMatch = (choices) => {
+  let tuesdayCh = getAccDayCh(3, choices)
+  let wednesdayCh = getAccDayCh(4, choices)
+  const fridayCh = getAccDayCh(6, choices)
+  if (choices.some(choice => choice.DIA_SEMANA === 9)) {
+    tuesdayCh += 72
+    wednesdayCh += 72
+  }
+  if (tuesdayCh > 72) return false
+  if (wednesdayCh > 72) return false
+  if (fridayCh > 72) return false
+  return true
+}
+
+const getAccDayCh = (day, choices) => {
+  const dayCh = choices
+    .filter(choice => choice.DIA_SEMANA === day)
+  if (dayCh.length > 0) {
+    return dayCh.map(choice => choice.CH).reduce((a, b) => a + b)
+  } else return 0
 }
 
 module.exports = makeInteractors

@@ -118,5 +118,46 @@ describe('Interactors', () => {
 
       assert.equal(valid, true)
     })
+
+    it('Returns false if days don\'t match', async () => {
+      const mockDb = {
+        getStudent: async () => Promise.resolve([{
+          RA: 11510005,
+          SEMESTRE_PREVISTO: 7,
+          CH_EM_2018_01: 144,
+          SEXTA_DISPONIVEL: 1
+        }]),
+        getSubjectsFromChoices: async () => Promise.resolve([
+          { ID: 24, DIA_SEMANA: 3, CH: 72 },
+          { ID: 25, DIA_SEMANA: 3, CH: 72 },
+          { ID: 26, DIA_SEMANA: 6, CH: 72 }
+        ])
+      }
+      const interactors = makeInteractors(mockDb)
+
+      const valid = await interactors.validateChoices(11510005, [24, 25, 26])
+
+      assert.equal(valid, false)
+    })
+
+    it('Considers 9\'s case', async () => {
+      const mockDb = {
+        getStudent: async () => Promise.resolve([{
+          RA: 11510005,
+          SEMESTRE_PREVISTO: 7,
+          CH_EM_2018_01: 144,
+          SEXTA_DISPONIVEL: 1
+        }]),
+        getSubjectsFromChoices: async () => Promise.resolve([
+          { ID: 24, DIA_SEMANA: 9, CH: 144 },
+          { ID: 26, DIA_SEMANA: 3, CH: 72 }
+        ])
+      }
+      const interactors = makeInteractors(mockDb)
+
+      const valid = await interactors.validateChoices(11510005, [24, 25, 26])
+
+      assert.equal(valid, false)
+    })
   })
 })
