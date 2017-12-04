@@ -1,0 +1,239 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 14px;
+  font-family: 'arial';
+  vertical-align: baseline; }
+
+/* remember to define focus styles! */
+:focus {
+  outline: 0; }
+
+html {
+  height: 100%;
+  width: 100%; }
+
+body {
+  background: white;
+  color: black;
+  height: 100%;
+  line-height: 1;
+  width: 100%; }
+
+ol, ul {
+  list-style: none; }
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+  border-collapse: separate;
+  border-spacing: 0; }
+
+caption, th, td {
+  text-align: left;
+  font-weight: normal; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: ""; }
+
+blockquote, q {
+  quotes: "" ""; }
+
+* {
+  box-sizing: border-box; }
+
+.field {
+  color: #3E3E3E;
+  font-size: 16px;
+  padding: 4px;
+  width: 100%; }
+
+.button {
+  background-color: #B30029;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px; }
+  .button:hover, .button:focus {
+    background-color: #80001d; }
+
+.container {
+  height: 100%;
+  margin: 0 auto;
+  max-width: 1024px;
+  width: 90%; }
+
+.checkboxwrapper {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  color: #3E3E3E;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+  .checkboxwrapper input {
+    position: absolute;
+    opacity: 0; }
+  .checkboxwrapper .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #ccc; }
+  .checkboxwrapper input:checked ~ .checkmark {
+    background-color: #B30029; }
+  .checkboxwrapper .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none; }
+  .checkboxwrapper input:checked ~ .checkmark:after {
+    display: block; }
+  .checkboxwrapper .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg); }
+
+.banner {
+  background-position: bottom;
+  background-size: cover;
+  height: 100%;
+  width: 100%; }
+
+.infobox {
+  background-color: #fff;
+  color: #3E3E3E;
+  max-width: 400px;
+  padding: 20px;
+  text-align: center;
+  width: 90%; }
+  .infobox .infobox-logo {
+    margin-bottom: 15px; }
+  .infobox .infobox-title {
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-bottom: 5px; }
+  .infobox .infobox-text {
+    font-size: 16px;
+    line-height: 1.2;
+    margin-bottom: 10px; }
+  .infobox .infobox-content {
+    margin-bottom: 20px; }
+  .infobox .field {
+    height: 32px;
+    margin-bottom: 15px;
+    width: 80%; }
+  .infobox .button {
+    width: 140px; }
+  @media only screen and (min-width: 768px) {
+    .infobox .button {
+      width: 200px; } }
+
+.header {
+  border-bottom: solid 2px #B30029;
+  padding: 10px 0; }
+
+.togglebox {
+  margin-bottom: 10px; }
+  .togglebox .togglebox-header {
+    border: solid 2px #B30029;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px; }
+  .togglebox .togglebox-icon {
+    cursor: pointer;
+    height: 20px;
+    position: relative;
+    width: 34px; }
+    .togglebox .togglebox-icon:before, .togglebox .togglebox-icon:after {
+      background-color: #B30029;
+      content: '';
+      display: block;
+      height: 2px;
+      position: absolute;
+      top: 8px;
+      width: 20px;
+      transition: .2s ease-in-out all; }
+    .togglebox .togglebox-icon:after {
+      left: 0;
+      transform: rotate(45deg); }
+    .togglebox .togglebox-icon:before {
+      right: 0;
+      transform: rotate(-45deg); }
+  .togglebox .togglebox-content {
+    display: none;
+    font-size: 0;
+    height: 0; }
+  .togglebox .togglebox-item {
+    color: #3E3E3E;
+    display: inline-block;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%; }
+    .togglebox .togglebox-item .item-title {
+      color: #B30029;
+      font-weight: bold;
+      margin-bottom: 5px; }
+    .togglebox .togglebox-item .item-text {
+      font-size: 16px; }
+  .togglebox.active .togglebox-content {
+    border: solid 2px #B30029;
+    border-top: none;
+    display: block;
+    height: auto;
+    padding: 10px 0; }
+  .togglebox.active .togglebox-icon:after {
+    left: 7px; }
+  .togglebox.active .togglebox-icon:before {
+    right: 7px; }
+  @media only screen and (min-width: 768px) {
+    .togglebox .togglebox-item {
+      width: 50%; } }
+
+.login {
+  height: 100%;
+  width: 100%; }
+  .login .banner {
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+
+.list {
+  color: #3E3E3E; }
+  .list .list-title {
+    color: inherit;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 24px;
+    text-transform: uppercase; }
+  .list .list-text {
+    font-size: 16px;
+    line-height: 1.2;
+    margin-bottom: 20px; }
+  .list .button-holder {
+    margin: 20px 0;
+    text-align: center; }
+    .list .button-holder .button {
+      width: 200px; }

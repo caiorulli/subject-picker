@@ -29,14 +29,3 @@ node_modules
 # Debug log from npm
 npm-debug.log
 
-public/stylesheets/*.css
-public/stylesheets/*.css.map
-.idea/vcs.xml
-.idea/inspectionProfiles/Project_Default.xml
-.idea/modules.xml
-.idea/inspectionProfiles/Project_Default.xml
-.idea/subject-picker.iml
-.idea/vcs.xml
-.idea/watcherTasks.xml
-.idea/workspace.xml
-.idea/codeStyleSettings.xml

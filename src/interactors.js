@@ -4,31 +4,37 @@ const makeInteractors = (db = database) => {
   const buildChoiceTable = async (id) => {
     const choices = await db.getChoices(id)
     const subjects = await db.getSubjects()
+    const student = (await db.getStudent(id))[0]
 
-    return subjects.map((subject) => {
-      let hasChosen
-      if (choices.some((choice) => choice.ID_ELETIVA === subject.ID)) hasChosen = true
-      else hasChosen = false
+    return {
+      student,
+      subjects: subjects.map((subject) => {
+        let hasChosen
+        if (choices.some((choice) => choice.ID_ELETIVA === subject.ID)) hasChosen = 'checked'
+        else hasChosen = ''
 
-      const weekDay = [undefined, undefined, undefined, 'Terça', 'Quarta', undefined, 'Sexta', undefined, undefined, 'Terça e sexta']
-      return Object.assign(subject, { hasChosen, weekDay: weekDay[subject.DIA_SEMANA] })
-    })
+        const weekDay = [undefined, undefined, undefined, 'Terça', 'Quarta', undefined, 'Sexta', undefined, undefined, 'Terça e sexta']
+        return Object.assign(subject, { hasChosen, weekDay: weekDay[subject.DIA_SEMANA] })
+      })
+    }
   }
 
   const updateChoices = async (id, choices) => {
-    if (choices && choices.forEach && validateChoices(id, choices)) {
+    if (choices && choices.forEach && await validateChoices(id, choices)) {
       await db.deleteChoices(id)
-      choices.forEach(async (choice) => db.insertChoice(id, choice))
+      await choices.forEach(async (choice) =>
+        db.insertChoice(id, choice)
+        .catch(error => { throw error }))
     } else {
       throw new Error('Invalid choice payload')
     }
   }
 
   const validateChoices = async (id, choiceIds) => {
-    const student = await db.getStudent(id)
-    const choices = await db.getSubjectsFromChoices(choiceIds)
+    const student = (await db.getStudent(id))[0]
+    const choices = await db.getSubjectsFromChoices(choiceIds).catch(error => console.log(error))
     if (!chSumMatches(choices, student)) return false
-    else if (!fridayAvailabilityMatches(choices, student)) return false
+    if (!fridayAvailabilityMatches(choices, student)) return false
     return true
   }
 
@@ -49,7 +55,7 @@ const chSumMatches = (choices, student) => {
 }
 
 const fridayAvailabilityMatches = (choices, student) => {
-  const fridayAvailable = student.SEXTA_DISPONIVEL === 1
+  const fridayAvailable = student.SEXTA_DISPONIVEL
   const hasChosenFridaySubject = choices.map(choice => choice.DIA_SEMANA).includes(6)
   if (hasChosenFridaySubject) {
     if (fridayAvailable) return true
