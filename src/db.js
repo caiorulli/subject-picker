@@ -19,19 +19,19 @@ const query = async (query, params = []) => {
   return promise
 }
 
-const getStudent = async (id) =>
+const getStudent = async id =>
   query('SELECT * FROM ESTUDANTES WHERE RA = ?', [id])
 
-const getChoices = async (id) =>
+const getChoices = async id =>
   query('SELECT * FROM ELETIVAS WHERE RA = ?', [id])
 
 const getSubjects = async () =>
   query('SELECT * FROM DISCIPLINAS ORDER BY CH DESC')
 
-const getSubjectsFromChoices = async (choiceIds) =>
+const getSubjectsFromChoices = async choiceIds =>
   query('SELECT * FROM DISCIPLINAS WHERE ID in (?)', [choiceIds])
 
-const deleteChoices = async (id) =>
+const deleteChoices = async id =>
   query('DELETE FROM ELETIVAS WHERE RA = ?', [id])
 
 const insertChoice = async (id, choice) =>

@@ -1,30 +1,47 @@
 const database = require('./db')
 
 const makeInteractors = (db = database) => {
-  const buildChoiceTable = async (id) => {
+  const buildChoiceTable = async id => {
     const choices = await db.getChoices(id)
     const subjects = await db.getSubjects()
     const student = (await db.getStudent(id))[0]
 
     return {
       student,
-      subjects: subjects.map((subject) => {
+      subjects: subjects.map(subject => {
         let hasChosen
-        if (choices.some((choice) => choice.ID_ELETIVA === subject.ID)) hasChosen = 'checked'
-        else hasChosen = ''
+        if (choices.some(choice => choice.ID_ELETIVA === subject.ID)) {
+          hasChosen = 'checked'
+        } else hasChosen = ''
 
-        const weekDay = [undefined, undefined, undefined, 'Terça', 'Quarta', undefined, 'Sexta', undefined, undefined, 'Terça e quarta']
-        return Object.assign(subject, { hasChosen, weekDay: weekDay[subject.DIA_SEMANA] })
+        const weekDay = [
+          undefined,
+          undefined,
+          undefined,
+          'Terça',
+          'Quarta',
+          undefined,
+          'Sexta',
+          undefined,
+          undefined,
+          'Terça e quarta'
+        ]
+        return Object.assign(subject, {
+          hasChosen,
+          weekDay: weekDay[subject.DIA_SEMANA]
+        })
       })
     }
   }
 
   const updateChoices = async (id, choices) => {
-    if (choices && choices.forEach && await validateChoices(id, choices)) {
+    if (choices && choices.forEach && (await validateChoices(id, choices))) {
       await db.deleteChoices(id)
-      await choices.forEach(async (choice) =>
-        db.insertChoice(id, choice)
-        .catch(error => { throw error }))
+      await choices.forEach(async choice =>
+        db.insertChoice(id, choice).catch(error => {
+          throw error
+        })
+      )
     } else {
       throw new Error('Invalid choice payload')
     }
@@ -32,7 +49,9 @@ const makeInteractors = (db = database) => {
 
   const validateChoices = async (id, choiceIds) => {
     const student = (await db.getStudent(id))[0]
-    const choices = await db.getSubjectsFromChoices(choiceIds).catch(error => console.log(error))
+    const choices = await db
+      .getSubjectsFromChoices(choiceIds)
+      .catch(error => console.log(error))
     if (!chSumMatches(choices, student)) return false
     if (!fridayAvailabilityMatches(choices, student)) return false
     if (!daysMatch(choices)) return false
@@ -57,7 +76,9 @@ const chSumMatches = (choices, student) => {
 
 const fridayAvailabilityMatches = (choices, student) => {
   const fridayAvailable = student.SEXTA_DISPONIVEL
-  const hasChosenFridaySubject = choices.map(choice => choice.DIA_SEMANA).includes(6)
+  const hasChosenFridaySubject = choices
+    .map(choice => choice.DIA_SEMANA)
+    .includes(6)
   if (hasChosenFridaySubject) {
     if (fridayAvailable) return true
     else return false
@@ -65,7 +86,7 @@ const fridayAvailabilityMatches = (choices, student) => {
   return true
 }
 
-const daysMatch = (choices) => {
+const daysMatch = choices => {
   let tuesdayCh = getAccDayCh(3, choices)
   let wednesdayCh = getAccDayCh(4, choices)
   const fridayCh = getAccDayCh(6, choices)
@@ -80,8 +101,7 @@ const daysMatch = (choices) => {
 }
 
 const getAccDayCh = (day, choices) => {
-  const dayCh = choices
-    .filter(choice => choice.DIA_SEMANA === day)
+  const dayCh = choices.filter(choice => choice.DIA_SEMANA === day)
   if (dayCh.length > 0) {
     return dayCh.map(choice => choice.CH).reduce((a, b) => a + b)
   } else return 0

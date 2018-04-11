@@ -11,14 +11,18 @@ If you like tests, run them!
 ```
 npm test
 ```
+Database setup is still complicated, you can do it through environment variables `DB_HOST`, `DB_USER` and `DB_PASSWORD` but we still don't have migration support. (See Todo list)
 
 ## Structure
 Application has three main pages:
 - Home page: displays welcome messages, has field meant to fill with student ID sending to Choose page.
 - Choose page: has subject table, student can update chosen subjects and save them. Should contain subject info, docs and validation.
-- Thanks page: Sends the student off with a smile. *insert piróquio here*
+- Thanks page: Sends the student off with a smile.
 
 
 ## Todo
-- FrontEnd for all pages
-- FrontEnd correction for api communication
+- Add Travis CI
+- Setup Azure deploy
+- Add DI support and restructure application
+- Replace MySQL for Mongo+Mongoose
+- Refactor front-end to a React application

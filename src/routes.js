@@ -9,9 +9,10 @@ router.get('/', function (req, res) {
 })
 
 router.get('/choose/:id', (req, res) => {
-  interactors.buildChoiceTable(req.params.id)
-    .then((choiceTable) => res.render('list', { choiceTable }))
-    .catch((error) => res.render('error', { error }))
+  interactors
+    .buildChoiceTable(req.params.id)
+    .then(choiceTable => res.render('list', { choiceTable }))
+    .catch(error => res.render('error', { error }))
 })
 
 router.post('/validate', async (req, res) => {
